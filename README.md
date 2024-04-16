@@ -1,33 +1,33 @@
-Flask Web Application for Logging Data
+# Flask Web Application for Logging Data
 
 This Flask web application allows users to log sensitive data by providing their name, email, and password through a simple web form. The data is then saved to a file and optionally sent to a webhook for further processing.
 
-Features
+## Features
 
-	•	User-friendly Interface: Clean and intuitive web interface for data input.
-	•	Data Logging: Data submitted by users is logged to a text file (LoggedData.txt).
-	•	Webhook Integration: Optionally, data can be sent to a webhook endpoint for additional processing.
+- **User-friendly Interface**: Clean and intuitive web interface for data input.
+- **Data Logging**: Data submitted by users is logged to a text file (`LoggedData.txt`).
+- **Webhook Integration**: Optionally, data can be sent to a webhook endpoint for additional processing.
 
-Technologies Used
+## Technologies Used
 
-	•	Flask: Python web framework used for backend development.
-	•	HTML/CSS/JavaScript: Frontend components for building the user interface and handling client-side logic.
-	•	Requests Library: Used to send HTTP requests to the webhook endpoint.
+- **Flask**: Python web framework used for backend development.
+- **HTML/CSS/JavaScript**: Frontend components for building the user interface and handling client-side logic.
+- **Requests Library**: Used to send HTTP requests to the webhook endpoint.
 
-File Structure
+## File Structure
 
-	•	index.html: HTML file containing the web form for data input.
-	•	styles.css: CSS file for styling the web interface.
-	•	script.js: JavaScript file containing client-side logic for handling form submission.
-	•	server.py: Python script defining the Flask application and handling requests.
-	•	LoggedData.txt: Text file where sensitive data is logged.
+- **`index.html`**: HTML file containing the web form for data input.
+- **`styles.css`**: CSS file for styling the web interface.
+- **`script.js`**: JavaScript file containing client-side logic for handling form submission.
+- **`server.py`**: Python script defining the Flask application and handling requests.
+- **`LoggedData.txt`**: Text file where sensitive data is logged.
 
-Usage
+## Usage
 
-	1.	Clone the repository to your local machine:
+1. Clone the repository to your local machine:
 
-git clone <repository_url>
-
+   ```bash
+   git clone <repository_url>
 
 	2.	Install the required Python packages:
 
@@ -56,5 +56,3 @@ Please make sure to follow the code of conduct.
 License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-
-Feel free to adjust the README further to suit your specific project needs and preferences.
