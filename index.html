@@ -9,15 +9,6 @@
 
 <h1>Geolocation Script</h1>
 
-<!-- Form to input latitude and longitude -->
-<form id="locationForm">
-    <label for="latitude">Latitude:</label>
-    <input type="text" id="latitude" name="latitude"><br><br>
-    <label for="longitude">Longitude:</label>
-    <input type="text" id="longitude" name="longitude"><br><br>
-    <button type="submit">Submit</button>
-</form>
-
 <!-- Display area for stored locations -->
 <div id="locations"></div>
 
@@ -26,28 +17,34 @@ $(document).ready(function(){
     // MongoDB connection URI
     var mongoURI = 'mongodb+srv://hekiga1032:nEU@n$Nz94frw6H@cluster0.lhyfsaa.mongodb.net/';
 
-    // Function to submit location data
-    $('#locationForm').submit(function(e){
-        e.preventDefault();
-        var latitude = $('#latitude').val();
-        var longitude = $('#longitude').val();
-        
-        // Send location data to server
+    // Function to fetch user's geolocation based on IP
+    function fetchLocation() {
         $.ajax({
-            type: 'POST',
-            url: mongoURI + 'saveLocation',
-            data: { latitude: latitude, longitude: longitude },
+            url: 'http://ip-api.com/json',
+            type: 'GET',
             success: function(response){
-                console.log('Location saved successfully');
-                $('#latitude').val('');
-                $('#longitude').val('');
-                fetchLocations(); // Fetch and display all locations after saving
+                // Send location data to server
+                $.ajax({
+                    type: 'POST',
+                    url: mongoURI + 'saveLocation',
+                    data: { 
+                        latitude: response.lat,
+                        longitude: response.lon
+                    },
+                    success: function(response){
+                        console.log('Location saved successfully');
+                        fetchLocations(); // Fetch and display all locations after saving
+                    },
+                    error: function(err){
+                        console.error('Error saving location:', err);
+                    }
+                });
             },
             error: function(err){
-                console.error('Error saving location:', err);
+                console.error('Error fetching location:', err);
             }
         });
-    });
+    }
 
     // Function to fetch and display all locations
     function fetchLocations(){
@@ -66,10 +63,5 @@ $(document).ready(function(){
         });
     }
 
-    // Fetch and display all locations when page loads
-    fetchLocations();
-});
-</script>
-
-</body>
-</html>
+    // Fetch user's location and save it when page loads
+    fetchLocati
