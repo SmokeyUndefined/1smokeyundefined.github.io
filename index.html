@@ -1,11 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Logger</title>
+    <title>Geolocation Script</title>
+    <!-- Include the necessary scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <script src="dataLogger.js"></script>
+
+<h1>Geolocation Script</h1>
+
+<!-- Form to input latitude and longitude -->
+<form id="locationForm">
+    <label for="latitude">Latitude:</label>
+    <input type="text" id="latitude" name="latitude"><br><br>
+    <label for="longitude">Longitude:</label>
+    <input type="text" id="longitude" name="longitude"><br><br>
+    <button type="submit">Submit</button>
+</form>
+
+<!-- Display area for stored locations -->
+<div id="locations"></div>
+
+<script>
+$(document).ready(function(){
+    // MongoDB connection URI
+    var mongoURI = 'mongodb+srv://hekiga1032:nEU@n$Nz94frw6H@cluster0.lhyfsaa.mongodb.net/';
+
+    // Function to submit location data
+    $('#locationForm').submit(function(e){
+        e.preventDefault();
+        var latitude = $('#latitude').val();
+        var longitude = $('#longitude').val();
+        
+        // Send location data to server
+        $.ajax({
+            type: 'POST',
+            url: mongoURI + 'saveLocation',
+            data: { latitude: latitude, longitude: longitude },
+            success: function(response){
+                console.log('Location saved successfully');
+                $('#latitude').val('');
+                $('#longitude').val('');
+                fetchLocations(); // Fetch and display all locations after saving
+            },
+            error: function(err){
+                console.error('Error saving location:', err);
+            }
+        });
+    });
+
+    // Function to fetch and display all locations
+    function fetchLocations(){
+        $.ajax({
+            type: 'GET',
+            url: mongoURI + 'getLocations',
+            success: function(locations){
+                $('#locations').empty();
+                locations.forEach(function(location){
+                    $('#locations').append('<p>Latitude: ' + location.latitude + ', Longitude: ' + location.longitude + '</p>');
+                });
+            },
+            error: function(err){
+                console.error('Error fetching locations:', err);
+            }
+        });
+    }
+
+    // Fetch and display all locations when page loads
+    fetchLocations();
+});
+</script>
+
 </body>
 </html>
