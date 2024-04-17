@@ -1,44 +1,24 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+function submitForm() {
+    const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        house_address: document.getElementById('house_address').value,
+        ip: getIP()
+    };
 
-// MongoDB connection URI
-const mongoURI = 'mongodb+srv://hekiga1032:nEU@n$Nz94frw6H@cluster0.lhyfsaa.mongodb.net/';
-
-// Connect to MongoDB
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-
-// Define location schema
-const locationSchema = new mongoose.Schema({
-    latitude: Number,
-    longitude: Number
-});
-const Location = mongoose.model('Location', locationSchema);
-
-const app = express();
-app.use(bodyParser.json());
-
-// Endpoint to save location
-app.post('/saveLocation', (req, res) => {
-    const latitude = req.body.latitude;
-    const longitude = req.body.longitude;
-
-    const newLocation = new Location({
-        latitude: latitude,
-        longitude: longitude
+    fetch('/save_data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
     });
 
-    newLocation.save()
-        .then(() => res.status(200).send('Location saved successfully'))
-        .catch(err => res.status(500).send('Error saving location: ' + err));
-});
+    alert('Your data has been logged.');
+}
 
-// Endpoint to fetch all locations
-app.get('/getLocations', (req, res) => {
-    Location.find()
-        .then(locations => res.status(200).json(locations))
-        .catch(err => res.status(500).send('Error fetching locations: ' + err));
-});
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+function getIP() {
+    const response = fetch('https://api.ipify.org?format=json');
+    return response.then(response => response.json()).then(json => json.ip);
+}
