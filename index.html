@@ -1,72 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Geolocation Script</title>
-    <!-- Include the necessary scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logged Data</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<h1>Geolocation Script</h1>
-
-<!-- Display area for stored locations -->
-<div id="locations"></div>
-
-<script>
-$(document).ready(function(){
-    // MongoDB connection URI
-    var mongoURI = 'mongodb+srv://hekiga1032:nEU@n$Nz94frw6H@cluster0.lhyfsaa.mongodb.net/';
-
-    // Function to fetch user's geolocation based on IP
-    function fetchLocation() {
-        $.ajax({
-            url: 'http://ip-api.com/json',
-            type: 'GET',
-            success: function(response){
-                // Send location data to server
-                $.ajax({
-                    type: 'POST',
-                    url: mongoURI + 'saveLocation',
-                    data: { 
-                        latitude: response.lat,
-                        longitude: response.lon
-                    },
-                    success: function(response){
-                        console.log('Location saved successfully');
-                        fetchLocations(); // Fetch and display all locations after saving
-                    },
-                    error: function(err){
-                        console.error('Error saving location:', err);
-                    }
-                });
-            },
-            error: function(err){
-                console.error('Error fetching location:', err);
-            }
-        });
-    }
-
-    // Function to fetch and display all locations
-    function fetchLocations(){
-        $.ajax({
-            type: 'GET',
-            url: mongoURI + 'getLocations',
-            success: function(locations){
-                $('#locations').empty();
-                locations.forEach(function(location){
-                    $('#locations').append('<p>Latitude: ' + location.latitude + ', Longitude: ' + location.longitude + '</p>');
-                });
-            },
-            error: function(err){
-                console.error('Error fetching locations:', err);
-            }
-        });
-    }
-
-    // Fetch user's location and save it when page loads
-    fetchLocation();
-});
-</script>
-
+    <div class="container">
+        <h1>Logged Data</h1>
+        <div class="form-container">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Your password" required>
+            </div>
+            <div class="form-group">
+                <label for="house_address">House Address</label>
+                <input type="text" id="house_address" placeholder="Your house address" required>
+            </div>
+            <button class="btn" onclick="submitForm()">Log Data</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
